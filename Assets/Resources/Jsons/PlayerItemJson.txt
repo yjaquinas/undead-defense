@@ -1,0 +1,9 @@
+{
+    "crossbow": "lvl 1",
+    "arrowBasic": "lvl 1",
+    "arrowPower": "lvl 1",
+    "arrowArea": "lvl 1",
+    "arrowMulti": "lvl 1",
+    "skillEntireScreen": "lvl 1",
+    "skillSelected": "lvl 1"
+}

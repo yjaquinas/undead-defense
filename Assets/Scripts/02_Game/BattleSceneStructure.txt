@@ -1,0 +1,299 @@
+﻿게임관리자
+	+---------------------------+
+	| CBattle                   |
+	+---------------------------+
+	| TOTAL_WAVE_COUNT: int     |
+	| ENEMY_COUNT_PER_WAVE: int |
+	| FSM: BattleFSM            |
+	| ui: CBattleUI             |
+	| enemySpawn: CEnemySpawn   |
+	| waveCount: int            |
+	| enemyCount: int           |
+	| gamePoint: int            |
+	+---------------------------+
+		+------------------+
+		| BattleFSM : enum |
+		+------------------+
+		| READY            |
+		| BATTLE           |
+		| PAUSE            |
+		| GAMEOVER         |
+		| CLEAR            |
+		+------------------+
+
+	+----------------------------+
+	| CBattleUI                  |
+	+----------------------------+
+	| battleScene : CBattle      |
+	| startButton : Button       |
+	| shootButton : Button       |
+	| scopeButton : Button       |
+	| mercChangeButton : Button  |
+	| waveCount : Text           |
+	| gamePoint : Text           |
+	| youLostText : Text         |
+	| youWinText : Text          |
+	| crosshairImage : Image     |
+	+----------------------------+
+	| StageStart() : void        |
+	| ShowBattleOver() : void    |
+	| UpdateWaveCount() : void   |
+	| UpdateGamePointUI() : void |
+	+----------------------------+
+
+
+
+플레이어
+	+-------------------------+
+	| CInputAim               |
+	+-------------------------+
+	| sensitivity : float     |
+	| horizontal : float      |
+	| vertical : float        |
+	+-------------------------+
+	| SetSensitivity() : void |
+	+-------------------------+
+	
+	+-------------------------+
+	| CWeapon                 | - Crossbow에 추가됨
+	+-------------------------+
+	| reloadSpeed : float     |
+	| scope : Scope           |
+    | mercType : int          |
+	|_shotAni :Animator       |
+	+-------------------------+
+	| IsLoaded() : bool       |
+    | ChangeMercType() : void |
+	| CheckForEnemy() : void  |
+	| StickArrow() : void     |
+	| CheckForEnemy() : void  |
+	| ArrowMove() : void      |
+	+-------------------------+
+	
+	+----------------------------------+
+	| CScope                           | - Crossbow에 추가됨
+	+----------------------------------+
+	| scopeOverlay : Image             |
+	| isScoped : bool                  |
+	| SCOPED_SENSITIVITY_RATIO : float |
+	| SCOPED_ZOOM_RATIO : float        |
+	| zoomButton : Button              |
+	| zoomIn : bool                    |
+	+----------------------------------+
+	| ScopeToggle() : void             |
+	| ButtonClick() : void             |
+	| Update()                         |
+	| Start()                          |
+	+----------------------------------+
+		+-------------------------------------+
+		| CScopeIdleEvent                     |
+		+-------------------------------------+
+		| no variables                        |
+		+-------------------------------------+
+		| OnStateEnter() : ScopeToggle(false) |
+		| OnStateExit() : ScopeToggle(true)   |
+		+-------------------------------------+
+
+	+-------------------------+
+	| CArrow                  |
+	+-------------------------+
+	| speed : float           |
+	| timer : float           |
+	| destroyTime : float     |
+	+-------------------------+
+	| OnTriggerEnter() : void |
+	+-------------------------+
+
+
+에너미, 용병 공용
+	+--------------------------+
+	| CCharParams              |
+	+--------------------------+
+	| battleManager : CBattle  |
+	| FSM : CharFSM            |
+	| animator : Animator      |
+	| hpBar : Image            |
+	| maxHp : int              | 
+	| curHp : int              |
+	| isDead : bool            |
+	| _bodyCollider : Collider |
+	| _headCollider : Collider |
+	+--------------------------+
+	| GetHit() : void          |
+	| GetFSM() : void          |
+	| SetFSM() : CharFSM       |
+	+--------------------------+
+			+----------------+
+			| CharFSM : enum |
+			+----------------+
+			| IDLE           |
+			| TRACE          |
+			| ATTACK         |
+			| DIE            |
+			| DANCE          |
+			| PUMPKIN        |
+			| FROZEN         |
+			| STUNNED        |
+			| TORNADO        |
+			+----------------+
+
+에너미
+	+----------------------------------+
+	| CEnemyParams : CCharParams       |
+	+----------------------------------+
+    | DEFENSE_UP_BUF : int             |
+    | FROZEN_DECELERATION_RATE : float |
+    | BASIC_DEFENSE : int              |
+    | REWARD_MIN : int                 |
+    | REWARD_MAX : int                 |
+    | HEAVY_LIGHTNING_DAMAGE : int     |
+	| enemyFSM : CEnemyFSM             |
+	| enemyMovemet : CEnemyMovement    |
+	| as : AudioSource                 |
+	| defense : int                    |
+	| isDefenseUp : bool               |
+	| rewardPoint : int                |
+	| origSpeed : float                |
+	| attackRange : float              |
+	| isHeadShot : bool                |
+	| isCC : bool                      |
+	| frozenCC : GameObject            |
+	| stunnedCC : GameObject           |
+	| tornadoCC : GameObject           |
+	| _isTornado : bool                 |
+	| tornadoPos : Vector3             |
+	| dist : float                     |
+	| angle : float                    |
+	| height : float                   |
+	+----------------------------------+
+	| InitParams() : void              |
+    | DoublePoint() : void             |
+    | HeadShot() : void                |
+    | Freeze() : void                  |
+    | Stun() : void                    |
+    | Tornado() : void                 |
+    | CCFinish() : void                |
+	| DefenseUp() : void               |
+	| DefenseUpEnd() : void            |
+	+----------------------------------+
+	
+	+------------------------+
+	| CEnemyCollisionCheck   | **** Hips_jnt에 추가됨!
+	+------------------------+
+	|                        |
+	+------------------------+
+	| OnTriggerExit() : void |
+	+------------------------+
+
+	+-----------------------------+
+	| CEnemyMovement              |
+	+-----------------------------+
+    | BOAR_SPEED_RATIO : float    |
+    | DISMOUNTED_SPEED : float    |
+    | params : CEnemyFSM          |
+    | navMeshAgent : NavMeshAgent |
+    | target : Transform          |
+    | _boar : GameObject          |
+    | _origSpeed : float          |
+    | _isSpeedUp : bool           |
+	+-----------------------------+
+	| RideKilled() : void         |
+	| SpeedUp() : void            |
+	| SpeedUpEnd() : void         |
+	+-----------------------------+
+	
+	+-----------------------------+
+	| CEnemySkill                 |
+	+-----------------------------+
+	| DANCE_RATE_MIN : int        |
+	| DANCE_DURATION : int        |
+	| DANCE_RATE_MAX : int        |
+	| params : CEnemyParams       |
+	| navMeshAgent : NavMeshAgent |
+	| _bufType : BUF_TYPE         |
+	+-----------------------------+
+	| DanceStart() : void         |
+	| DanceQuit() : void          |
+    | ThrowPumpkin() : void       |
+	+-----------------------------+
+		+-----------------+
+		| BUF_TYPE : enum |
+		+-----------------+
+		| SPEED_UP        |
+		| DEFENSE_UP      |
+		+-----------------+
+		
+	+---------------------------------+
+	| CEnemyProjectile                |
+	+---------------------------------+
+	| PUMPKIN_THROW_VELOCITY : float  |
+	+---------------------------------+
+	| Shoot() : void                  |
+    | OnTriggerEnter(Collider) : void |
+	+---------------------------------+
+
+	+------------------------------------+
+	| CEnemySpawn                        | - EnemySpawn에 추가됨
+	+------------------------------------+
+	| spawnPointTransforms : Transform[] |
+	| spawnVFXPrefab : GameObject        |
+	| enemyPrefabs : GameObject          |
+	| spawnRate : float                  |
+	| numEnemiesToSpawn : int            |
+	+------------------------------------+
+	| StartWave(int) : void              |
+	| SpawnEnemy() : void                |
+	+------------------------------------+
+
+	+------------------------------------+
+	| BillBoard                          |
+	+------------------------------------+
+	| _playerCameraTransform : Transform |
+	+------------------------------------+
+
+
+용병
+	+--------------------------------+
+	| CMercParams : CCharParams      |
+	+--------------------------------+
+	| attackDelay1 : float           |
+	| attackDelay2 : float           |
+	| attackDelay3 : float           |
+	| currAttackDelay : float        |
+	| attackTimer : float            |
+	| particle_skill1 : GameObject   |
+	| particle_skill2 : GameObject   |
+	| particle_skill3 : GameObject   |
+	| particle_skill4 : GameObject   |
+	| disappearCollider : GameObject |
+	| type : int                     |
+	+--------------------------------+
+	| Attack() : void                |
+	| ChangeState() : void           |
+	| SetType() : void               |
+	+--------------------------------+
+
+	+--------------------------+
+	| CMercSkill               |
+	+--------------------------+
+	| ICE_DAMAGE : int         |
+	| LIGHTNING_DAMAGE : int   |
+	| TORNADO_DAMAGE : int     |
+	| GAS_DAMAGE : int         |
+	| type : string            |
+	| damage : int             |
+	+--------------------------+
+	| OnTriggerEnter() : void  |
+	+--------------------------+
+	
+	+---------------------------+
+	| CMercDetect               |
+	+---------------------------+
+    | params : CMercParams      |
+    | targetEnemy : targetEnemy |
+    | attackDistance : float    |
+    | shortestDistance : float  |
+	+---------------------------+
+	| FindEnemy() : void        |
+	+---------------------------+
+	

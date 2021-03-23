@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<rows>
+  <row>
+    <name>spawn</name>
+    <pattern0>1111111111</pattern0>
+    <pattern1>1212121212</pattern1>
+    <pattern2>1122112211</pattern2>
+    <pattern3>2211221122</pattern3>
+    <pattern4>1212121212</pattern4>
+    <pattern5>1122112211</pattern5>
+    <pattern6>2211221122</pattern6>
+    <pattern7>3222232222</pattern7>
+    <pattern8>2323232323</pattern8>
+    <pattern9>3333333333</pattern9>
+  </row>
+</rows>
